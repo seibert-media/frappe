@@ -347,7 +347,7 @@ frappe.Application = Class.extend({
 	},
 	make_page_container: function() {
 		if($("#body_div").length) {
-			$(".splash").remove();
+			// $(".splash").remove();
 			frappe.temp_container = $("<div id='temp-container' style='display: none;'>")
 				.appendTo("body");
 			frappe.container = new frappe.views.Container();
