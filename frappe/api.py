@@ -11,6 +11,7 @@ from frappe import _
 from six.moves.urllib.parse import urlparse, urlencode
 import base64
 
+
 def handle():
 	"""
 	Handler for `/api` methods
@@ -135,6 +136,7 @@ def handle():
 
 	return build_response("json")
 
+
 def validate_oauth():
 	from frappe.oauth import get_url_delimiter
 	form_dict = frappe.local.form_dict
@@ -175,6 +177,7 @@ def validate_auth_via_api_keys():
 			validate_api_key_secret(token[0], token[1])
 	except Exception as e:
 		raise e
+
 
 def validate_api_key_secret(api_key, api_secret):
 	user = frappe.db.get_value(
