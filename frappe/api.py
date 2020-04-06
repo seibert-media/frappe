@@ -11,6 +11,7 @@ from frappe import _
 from six.moves.urllib.parse import urlparse, urlencode
 import base64
 
+
 def handle():
 	"""
 	Handler for `/api` methods
@@ -135,6 +136,7 @@ def handle():
 
 	return build_response("json")
 
+
 def validate_oauth():
 	from frappe.oauth import get_url_delimiter
 	form_dict = frappe.local.form_dict
@@ -176,6 +178,7 @@ def validate_auth_via_api_keys():
 	except Exception as e:
 		raise e
 
+
 def validate_api_key_secret(api_key, api_secret):
 	user = frappe.db.get_value(
 		doctype="User",
@@ -183,7 +186,10 @@ def validate_api_key_secret(api_key, api_secret):
 		fieldname=['name']
 	)
 	form_dict = frappe.local.form_dict
-	user_secret = frappe.utils.password.get_decrypted_password ("User", user, fieldname='api_secret')
-	if api_secret == user_secret:
-		frappe.set_user(user)
-		frappe.local.form_dict = form_dict
+	if not user:
+		frappe.logger().info(f"no user found for api key '{api_key}'")
+	else:
+		user_secret = frappe.utils.password.get_decrypted_password("User", user, fieldname='api_secret')
+		if api_secret == user_secret:
+			frappe.set_user(user)
+			frappe.local.form_dict = form_dict
