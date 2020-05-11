@@ -82,14 +82,11 @@ io.on('connection', function (socket) {
 				console.log(err);
 				return;
 			}
-			// START
-			// BRO-3763: Temp fix, revert after fix socketio version
-			// if (res.status == 200) {
-			// 	var room = get_user_room(socket, res.body.message.user);
-			// 	socket.join(room);
-			// 	socket.join(get_site_room(socket));
-			// }
-			// END
+			if (res.status == 200) {
+				var room = get_user_room(socket, res.body.message.user);
+				socket.join(room);
+				socket.join(get_site_room(socket));
+			}
 		});
 
 	socket.on('disconnect', function () {
