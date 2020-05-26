@@ -191,5 +191,6 @@ def validate_api_key_secret(api_key, api_secret):
 	else:
 		user_secret = frappe.utils.password.get_decrypted_password("User", user, fieldname='api_secret')
 		if api_secret == user_secret:
-			frappe.set_user(user)
+			if frappe.local.login_manager.user in ('', 'Guest'):
+				frappe.set_user(user)
 			frappe.local.form_dict = form_dict
